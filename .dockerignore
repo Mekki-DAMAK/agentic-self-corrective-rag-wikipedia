@@ -6,7 +6,9 @@ __pycache__
 .mypy_cache
 .ruff_cache
 data/processed/*
+!data/processed/.gitkeep
 data/eval/*
+!data/eval/.gitkeep
 wandb
 *.pyc
 *.pyo
