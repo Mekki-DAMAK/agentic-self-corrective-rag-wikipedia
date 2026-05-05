@@ -1,0 +1,107 @@
+project:
+  name: "Agentic and Self-Corrective RAG on Wikipedia"
+  version: "1.0.0"
+
+runtime:
+  device: "auto"          # auto | cpu | cuda
+  offline: false           # false = download/use real Hugging Face models when needed
+  seed: 42
+
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  eval_dir: "data/eval"
+  wikipedia_jsonl: "data/raw/wikipedia_subset.jsonl"
+  chunks_jsonl: "data/processed/chunks.jsonl"
+  faiss_index: "data/processed/faiss.index"
+  embeddings_npy: "data/processed/embeddings.npy"
+  bm25_pickle: "data/processed/bm25.pkl"
+
+wikipedia:
+  language: "en"
+  articles:
+    - Artificial intelligence
+    - Machine learning
+    - Deep learning
+    - Supervised learning
+    - Unsupervised learning
+    - Reinforcement learning
+    - Artificial neural network
+    - Natural language processing
+    - Transformer (deep learning architecture)
+    - Large language model
+    - Generative artificial intelligence
+    - BERT (language model)
+    - Transfer learning
+    - Overfitting
+    - Cross-validation (statistics)
+    - Statistical classification
+    - Regression analysis
+    - Decision tree learning
+    - Random forest
+    - Support vector machine
+    - K-nearest neighbors algorithm
+    - K-means clustering
+    - Principal component analysis
+    - Gradient descent
+    - Backpropagation
+    - Convolutional neural network
+    - Recurrent neural network
+    - Attention (machine learning)
+    - Word embedding
+    - Information retrieval
+    - Computer vision
+    - Speech recognition
+    - Data mining
+    - Pattern recognition
+    - Explainable artificial intelligence
+
+chunking:
+  chunk_size: 900
+  chunk_overlap: 160
+  min_chunk_chars: 250
+
+models:
+  embedding: "sentence-transformers/all-MiniLM-L6-v2"
+  reranker: "cross-encoder/ms-marco-MiniLM-L-6-v2"
+  generator: "google/flan-t5-base"   # change to google/flan-t5-small for faster CPU demo
+  query_rewriter: "google/flan-t5-small"
+  ragas_llm: "Qwen/Qwen2.5-1.5B-Instruct"
+  ragas_embeddings: "sentence-transformers/all-MiniLM-L6-v2"
+
+retrieval:
+  bm25_top_k: 12
+  vector_top_k: 12
+  fused_top_k: 18
+  rerank_top_k: 6
+  max_attempts: 6
+  acceptance_threshold: 0.34
+  min_useful_sources: 1
+  title_bonus: 0.12
+  definition_bonus: 0.08
+  require_reranker: true   # true = fail if the real Cross-Encoder cannot be loaded
+
+query_rewriting:
+  use_llm: true
+  require_llm: true
+  max_new_tokens: 32
+  temperature: 0.2
+
+generation:
+  use_local_generator: false
+  max_new_tokens: 180
+  temperature: 0.0
+  min_grounding_ratio: 0.55
+  max_context_chars: 4200
+
+evaluation:
+  use_ragas: true
+  use_local_ragas_wrappers: false
+  fallback_lightweight_metrics: true
+  ragas_max_new_tokens: 256
+  max_questions: 10
+
+tracking:
+  enabled: false
+  project: "self-rag-wikipedia-demo"
+  mode: "offline"

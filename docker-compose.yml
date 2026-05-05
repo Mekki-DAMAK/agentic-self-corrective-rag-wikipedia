@@ -1,0 +1,10 @@
+services:
+  self-rag-wikipedia-demo:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - CONFIG_PATH=configs/default.yaml
+      - WANDB_MODE=offline
