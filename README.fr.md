@@ -31,8 +31,8 @@ Prerequis :
 Cloner le depot :
 
 ```bash
-git clone <your-repository-url>
-cd self-rag-wikipedia-demo
+git clone https://github.com/Mekki-DAMAK/agentic-self-corrective-rag-wikipedia.git
+cd agentic-self-corrective-rag-wikipedia
 ```
 
 Creer et activer un environnement virtuel :
